@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ads_fragment.frag</file>
+        <file>ads_fragment.vert</file>
+    </qresource>
+</RCC>
