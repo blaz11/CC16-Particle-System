@@ -92,4 +92,5 @@ void PipeObject::update()
 vector<GLfloat> PipeObject::generatePipeVertices()
 {
     vector<GLfloat> vertices;
+    return vertices;
 }
