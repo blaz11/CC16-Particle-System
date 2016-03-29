@@ -12,75 +12,83 @@ PipeObject::~PipeObject()
 
 void PipeObject::initialize(QOpenGLFunctions *f)
 {
-    vao.create();
-    GLfloat vertices[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    GLfloat _vertices[] = {
+        -0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f,  0.5f, -0.5f,
+         0.5f,  0.5f, -0.5f,
+        -0.5f,  0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
 
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,
+         0.5f, -0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f, -0.5f,  0.5f,
 
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
 
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
 
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f,  0.5f,
+         0.5f, -0.5f,  0.5f,
+        -0.5f, -0.5f,  0.5f,
+        -0.5f, -0.5f, -0.5f,
 
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+        -0.5f,  0.5f, -0.5f,
+         0.5f,  0.5f, -0.5f,
+         0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f
     };
-    auto vertices_vector = generatePipeVertices();
-    // World space positions of our cubes
-    glm::vec3 cubePosition( 0.0f,  0.0f,  0.0f);
+    projection = glm::perspective(45.0f, 2.0f, 0.01f, 100.0f);
+    auto vertices = generatePipeVertices(1,1,1);
     GLuint VBO;
+    vao.create();
     f->glGenBuffers(1, &VBO);
-
-    f->glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    f->glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    // Position attribute
-    f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
-    f->glEnableVertexAttribArray(0);
-
     vao.bind();
+    f->glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    f->glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
+    f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+ //   f->glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+ //   f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+    f->glEnableVertexAttribArray(0);
     vao.release();
 }
 
 void PipeObject::draw(QOpenGLFunctions *f, Shader* shader, glm::mat4 view_matrix)
 {
+    glm::vec3 position(0.0f,  0.0f,  0.0f);
+    glm::mat4 view;
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
+    glm::mat4 model;
+    model = glm::translate(model, position);
+    shader->use(f);
     vao.bind();
     GLint modelLoc = f->glGetUniformLocation(shader->Program, "model");
     GLint viewLoc = f->glGetUniformLocation(shader->Program, "view");
     GLint projLoc = f->glGetUniformLocation(shader->Program, "projection");
     GLint colorLoc = f->glGetUniformLocation(shader->Program, "color");
-    f->glDrawArrays(GL_TRIANGLES, 0, 36);
+    f->glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    f->glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    f->glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    f->glUniform3f(colorLoc, 0.0f, 1.0f, 0.0f);
+    f->glDrawArrays(GL_TRIANGLE_STRIP, 0, numberOfVertices);
+    //f->glDrawArrays(GL_TRIANGLES, 0, 36);
     vao.release();
 }
 
@@ -89,8 +97,26 @@ void PipeObject::update()
 
 }
 
-vector<GLfloat> PipeObject::generatePipeVertices()
+vector<GLfloat> PipeObject::generatePipeVertices(const float R1, const float R2, const float H)
 {
     vector<GLfloat> vertices;
+    double phi = 0;
+    double dphi = 2 * M_PI / steps;
+    numberOfVertices = 0;
+    for(int i = 0; i <= steps; ++i, phi += dphi, numberOfVertices += 2)
+    {
+        GLfloat x1 = R1*cos(phi);
+        GLfloat y1 = R1*sin(phi);
+        GLfloat z1 = -H/2;
+        GLfloat x2 = R2*cos(phi);
+        GLfloat y2 = R2*sin(phi);
+        GLfloat z2 = H/2;
+        vertices.push_back(x1);
+        vertices.push_back(y1);
+        vertices.push_back(z1);
+        vertices.push_back(x2);
+        vertices.push_back(y2);
+        vertices.push_back(z2);
+    }
     return vertices;
 }

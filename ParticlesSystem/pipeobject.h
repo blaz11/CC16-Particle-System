@@ -3,6 +3,9 @@
 
 #include <QOpenGLVertexArrayObject>
 #include <vector>
+#include <qmath.h>
+#include <Libraries/glm/gtc/matrix_transform.hpp>
+#include <Libraries/glm/gtc/type_ptr.hpp>
 #include "drawableobject.h"
 #include "shader.h"
 
@@ -19,8 +22,11 @@ public:
     void update() override;
 
 private:
-   QOpenGLVertexArrayObject vao;
-   vector<GLfloat> generatePipeVertices();
+    const float steps = 32;
+    glm::mat4 projection;
+    int numberOfVertices;
+    QOpenGLVertexArrayObject vao;
+    vector<GLfloat> generatePipeVertices(const float R1, const float R2, const float H);
 
 };
 

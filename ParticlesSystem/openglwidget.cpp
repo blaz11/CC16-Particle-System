@@ -31,7 +31,7 @@ void OpenGLWidget::initializeGL()
     camera = new Camera();
     shader = new Shader("C:\\Users\\Barbara\\Documents\\ParticlesSystem\\vertex_shader.glsl",
                         "C:\\Users\\Barbara\\Documents\\ParticlesSystem\\fragment_shader.glsl", f);
-    f->glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+    f->glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     qDebug() << "Initialized";
 }
 
