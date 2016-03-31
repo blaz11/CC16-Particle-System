@@ -8,6 +8,7 @@
 #include <Libraries/glm/gtc/type_ptr.hpp>
 #include "drawableobject.h"
 #include "shader.h"
+#include "triangle.h"
 
 using namespace std;
 

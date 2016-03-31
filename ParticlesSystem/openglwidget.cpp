@@ -2,6 +2,7 @@
 
 OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
+    isMoving = false;
 }
 
 OpenGLWidget::~OpenGLWidget()
@@ -29,8 +30,8 @@ void OpenGLWidget::initializeGL()
     addObjectToScene(pipeObject);
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     camera = new Camera();
-    shader = new Shader("C:\\Users\\Barbara\\Documents\\ParticlesSystem\\vertex_shader.glsl",
-                        "C:\\Users\\Barbara\\Documents\\ParticlesSystem\\fragment_shader.glsl", f);
+    shader = new Shader("../ParticlesSystem/vertex_shader.glsl",
+                        "../ParticlesSystem/fragment_shader.glsl", f);
     f->glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     qDebug() << "Initialized";
 }
@@ -52,4 +53,53 @@ void OpenGLWidget::paintGL()
     {
         (*i)->draw(f, shader, viewMatrix);
     }
+}
+
+void OpenGLWidget::keyPressEvent(QKeyEvent *event)
+{
+    const float sensitivity = 0.01f;
+    if(camera == NULL)
+        return;
+    switch(event->key())
+    {
+        case Qt::Key_Up:
+            camera->ProcessKeyboard(FORWARD, sensitivity);
+            this->update();
+            break;
+        case Qt::Key_Down:
+            camera->ProcessKeyboard(BACKWARD, sensitivity);
+            this->update();
+            break;
+        case Qt::Key_Right:
+            camera->ProcessKeyboard(RIGHT, sensitivity);
+            this->update();
+            break;
+        case Qt::Key_Left:
+            camera->ProcessKeyboard(LEFT, sensitivity);
+            this->update();
+            break;
+    }
+
+}
+
+void OpenGLWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    if(!isMoving)
+        return;
+    auto dx = lastPosition.x() - event->pos().x();
+    auto dy = lastPosition.y() - event->pos().y();
+    lastPosition = event->pos();
+    camera->ProcessMouseMovement(dx, dy);
+    this->update();
+}
+
+void OpenGLWidget::mousePressEvent(QMouseEvent *event)
+{
+   isMoving = true;
+   lastPosition = event->pos();
+}
+
+void OpenGLWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    isMoving = false;
 }

@@ -167,15 +167,16 @@ HEADERS  += mainwindow.h \
     drawableobject.h \
     camera.h \
     shader.h \
-    pipeobject.h
+    pipeobject.h \
+    modelloader.h \
+    pipeobject.h \
+    triangle.h
 
 FORMS    += mainwindow.ui
 
 DISTFILES += \
     fragment_shader.glsl \
     vertex_shader.glsl
-
-win32: LIBS += -L$$PWD/Libraries/ -lfreeglut
 
 INCLUDEPATH += $$PWD/Libraries
 DEPENDPATH += $$PWD/Libraries

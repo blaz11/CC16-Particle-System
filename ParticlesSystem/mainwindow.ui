@@ -23,6 +23,15 @@
       <height>250</height>
      </rect>
     </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
    </widget>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -40,7 +49,7 @@
      <x>0</x>
      <y>0</y>
      <width>623</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
