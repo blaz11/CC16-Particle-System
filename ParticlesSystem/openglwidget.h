@@ -13,6 +13,7 @@
 #include "camera.h"
 #include "shader.h"
 #include "pipeobject.h"
+#include "Logic/particlesystem.h"
 
 using namespace std;
 
@@ -37,6 +38,7 @@ private:
     Shader* shader;
     vector<DrawableObject*> objects;
     QPoint lastPosition;
+    ParticleSystem system;
     bool isMoving;
     void keyPressEvent(QKeyEvent* event);
     void mouseMoveEvent(QMouseEvent* event);

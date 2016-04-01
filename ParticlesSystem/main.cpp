@@ -1,4 +1,6 @@
 #include "mainwindow.h"
+#include "Logic/particleemitter.h"
+#include "Logic/particledata.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

@@ -1,6 +1,6 @@
 #include "openglwidget.h"
 
-OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent)
+OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent), system(25)
 {
     isMoving = false;
 }
@@ -60,6 +60,9 @@ void OpenGLWidget::keyPressEvent(QKeyEvent *event)
     const float sensitivity = 0.01f;
     if(camera == NULL)
         return;
+    system.update(1);
+    auto test = system.getParticlePositions();
+    qDebug() << "Particle count: " << test.size();
     switch(event->key())
     {
         case Qt::Key_Up:
