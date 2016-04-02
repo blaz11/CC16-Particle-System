@@ -56,10 +56,35 @@ void OpenGLWidget::paintGL()
 
 void OpenGLWidget::keyPressEvent(QKeyEvent *event)
 {
+<<<<<<< HEAD
+}
+=======
+    const float sensitivity = 0.01f;
+    if(camera == NULL)
+        return;
     system.update(1);
     auto test = system.getParticlePositions();
     qDebug() << "Particle count: " << test.size();
-}
+    switch(event->key())
+    {
+        case Qt::Key_Up:
+            camera->ProcessKeyboard(FORWARD, sensitivity);
+            this->update();
+            break;
+        case Qt::Key_Down:
+            camera->ProcessKeyboard(BACKWARD, sensitivity);
+            this->update();
+            break;
+        case Qt::Key_Right:
+            camera->ProcessKeyboard(RIGHT, sensitivity);
+            this->update();
+            break;
+        case Qt::Key_Left:
+            camera->ProcessKeyboard(LEFT, sensitivity);
+            this->update();
+            break;
+    }
+>>>>>>> 6762d76cca7bd4f1c465f9b08ff6a248bcd151f3
 
 void OpenGLWidget::wheelEvent(QWheelEvent *event)
 {

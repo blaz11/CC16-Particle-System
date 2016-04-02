@@ -37,8 +37,13 @@ private:
     Camera* camera;
     Shader* shader;
     vector<DrawableObject*> objects;
+<<<<<<< HEAD
 
+=======
+    QPoint lastPosition;
     ParticleSystem system;
+    bool isMoving;
+>>>>>>> 6762d76cca7bd4f1c465f9b08ff6a248bcd151f3
     void keyPressEvent(QKeyEvent* event);
     void wheelEvent(QWheelEvent* event);
     void mouseMoveEvent(QMouseEvent* event);

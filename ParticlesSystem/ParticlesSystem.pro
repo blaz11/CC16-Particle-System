@@ -18,7 +18,20 @@ SOURCES += main.cpp\
     Libraries/glm/detail/glm.cpp \
     camera.cpp \
     shader.cpp \
-    pipeobject.cpp
+    pipeobject.cpp \
+    Libraries/glm/detail/dummy.cpp \
+    drawableobject.cpp \
+    glwidget.cpp \
+    Logic/particledata.cpp \
+    Logic/particleemitter.cpp \
+    Logic/generators/particlegenerator.cpp \
+    Logic/generators/positiongenerator.cpp \
+    Logic/generators/velocitygenerator.cpp \
+    Logic/generators/timegenerator.cpp \
+    Logic/updaters/particleupdater.cpp \
+    Logic/updaters/eulerupdater.cpp \
+    Logic/updaters/timeupdater.cpp \
+    Logic/particlesystem.cpp
 
 HEADERS  += mainwindow.h \
     openglwidget.h \
@@ -170,7 +183,19 @@ HEADERS  += mainwindow.h \
     pipeobject.h \
     modelloader.h \
     pipeobject.h \
-    triangle.h
+    triangle.h \
+    debug.h \
+    glwidget.h \
+    Logic/particledata.h \
+    Logic/particleemitter.h \
+    Logic/generators/particlegenerator.h \
+    Logic/generators/positiongenerator.h \
+    Logic/generators/velocitygenerator.h \
+    Logic/generators/timegenerator.h \
+    Logic/updaters/particleupdater.h \
+    Logic/updaters/eulerupdater.h \
+    Logic/updaters/timeupdater.h \
+    Logic/particlesystem.h
 
 FORMS    += mainwindow.ui
 

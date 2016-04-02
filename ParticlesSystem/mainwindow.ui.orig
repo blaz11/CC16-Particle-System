@@ -14,6 +14,27 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+<<<<<<< HEAD
+   <widget class="OpenGLWidget" name="openGLWidget">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>40</y>
+      <width>500</width>
+      <height>250</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
+    <property name="toolTip">
+     <string notr="true"/>
+    </property>
+   </widget>
+=======
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="OpenGLWidget" name="openGLWidget">
@@ -24,12 +45,12 @@
        <enum>Qt::StrongFocus</enum>
       </property>
       <property name="toolTip">
-     <string notr="true"/>
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </item>
    </layout>
+>>>>>>> 6762d76cca7bd4f1c465f9b08ff6a248bcd151f3
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

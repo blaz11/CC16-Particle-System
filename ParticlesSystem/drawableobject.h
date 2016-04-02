@@ -8,6 +8,7 @@
 class DrawableObject
 {
 public:
+    DrawableObject();
     virtual ~DrawableObject() {}
     virtual void initialize(QOpenGLFunctions *f) = 0;
     virtual void draw(QOpenGLFunctions *f, Shader* shader, glm::mat4 view_matrix) = 0;
