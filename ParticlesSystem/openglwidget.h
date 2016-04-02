@@ -13,6 +13,7 @@
 #include "camera.h"
 #include "shader.h"
 #include "pipeobject.h"
+#include "particlesystemrender.h"
 #include "Logic/particlesystem.h"
 
 using namespace std;
@@ -36,9 +37,9 @@ protected:
 private:
     Camera* camera;
     Shader* shader;
+    ParticleSystem system;
     vector<DrawableObject*> objects;
 
-    ParticleSystem system;
     void keyPressEvent(QKeyEvent* event);
     void wheelEvent(QWheelEvent* event);
     void mouseMoveEvent(QMouseEvent* event);

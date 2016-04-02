@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     Logic/updaters/particleupdater.cpp \
     Logic/updaters/eulerupdater.cpp \
     Logic/updaters/timeupdater.cpp \
-    Logic/particlesystem.cpp
+    Logic/particlesystem.cpp \
+    particlesystemrender.cpp
 
 HEADERS  += mainwindow.h \
     openglwidget.h \
@@ -181,8 +182,6 @@ HEADERS  += mainwindow.h \
     camera.h \
     shader.h \
     pipeobject.h \
-    modelloader.h \
-    pipeobject.h \
     triangle.h \
     debug.h \
     glwidget.h \
@@ -195,7 +194,8 @@ HEADERS  += mainwindow.h \
     Logic/updaters/particleupdater.h \
     Logic/updaters/eulerupdater.h \
     Logic/updaters/timeupdater.h \
-    Logic/particlesystem.h
+    Logic/particlesystem.h \
+    particlesystemrender.h
 
 FORMS    += mainwindow.ui
 

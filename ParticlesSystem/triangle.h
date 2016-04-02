@@ -71,7 +71,7 @@ public:
             glm::vec3 vec(x,y,z);
             previousLine.push_back(vec);
         }
-        for(int i = 0 ; i < previousLine.size(); ++i)
+        for(uint i = 0 ; i < previousLine.size(); ++i)
         {
             Vertex v1(previousLine[i], glm::vec3(0, 1, 0));
             Vertex v2(previousLine[(i+1)%previousLine.size()], glm::vec3(0, 1, 0));
@@ -89,7 +89,7 @@ public:
             glm::vec3 vec(x,y,z);
             nextLine.push_back(vec);
         }
-        for(int i = 0 ; i < nextLine.size(); ++i)
+        for(uint  i = 0 ; i < nextLine.size(); ++i)
         {
             vector<Triangle> ts = Triangle::FromQuadrilateral(
                     nextLine[i % nextLine.size()],
@@ -103,7 +103,7 @@ public:
             triangles.push_back(ts[0]);
             triangles.push_back(ts[1]);
         }
-        for(int i = 0 ; i < nextLine.size(); ++i)
+        for(uint  i = 0 ; i < nextLine.size(); ++i)
         {
             Vertex v1(nextLine[i], glm::vec3(0, -1, 0));
             Vertex v2(nextLine[(i+1)%nextLine.size()], glm::vec3(0, -1, 0));
@@ -115,7 +115,7 @@ public:
 
     void generateDataForVBOs(vector<GLfloat>& poses, vector<GLfloat>& norms)
     {
-        for(int i = 0 ; i < triangles.size(); ++i)
+        for(uint  i = 0 ; i < triangles.size(); ++i)
         {
             Triangle t = triangles[i];
             poses.push_back(t.vertex1.position.x);

@@ -4,8 +4,8 @@
 #include <QOpenGLVertexArrayObject>
 #include <vector>
 #include <qmath.h>
-#include <Libraries/glm/gtc/matrix_transform.hpp>
-#include <Libraries/glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "drawableobject.h"
 #include "shader.h"
 #include "triangle.h"
