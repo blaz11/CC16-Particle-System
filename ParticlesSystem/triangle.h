@@ -99,7 +99,7 @@ public:
                     normalVector(nextLine[i % nextLine.size()]),
                     normalVector(nextLine[(i + 1) % nextLine.size()]),
                     normalVector(nextLine[i % previousLine.size()]),
-                    normalVector(nextLine[i % previousLine.size()])); //Zapytaj Łukasza dlaczego nie (i+1)%...
+                    normalVector(nextLine[(i + 1) % previousLine.size()]));
             triangles.push_back(ts[0]);
             triangles.push_back(ts[1]);
         }
@@ -121,6 +121,7 @@ public:
             poses.push_back(t.vertex1.position.x);
             poses.push_back(t.vertex1.position.y);
             poses.push_back(t.vertex1.position.z);
+            //qDebug() << t.vertex1.position.x << " " << t.vertex1.position.y << " " << t.vertex1.position.z << ";";
             norms.push_back(t.vertex1.normal.x);
             norms.push_back(t.vertex1.normal.y);
             norms.push_back(t.vertex1.normal.z);

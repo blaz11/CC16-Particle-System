@@ -2,7 +2,6 @@
 
 OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
-    isMoving = false;
 }
 
 OpenGLWidget::~OpenGLWidget()
@@ -29,7 +28,7 @@ void OpenGLWidget::initializeGL()
     auto pipeObject = new PipeObject();
     addObjectToScene(pipeObject);
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
-    camera = new Camera();
+    camera = new Camera(glm::vec3(0,0,0), 5);
     shader = new Shader("../ParticlesSystem/vertex_shader.glsl",
                         "../ParticlesSystem/fragment_shader.glsl", f);
     f->glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -57,49 +56,26 @@ void OpenGLWidget::paintGL()
 
 void OpenGLWidget::keyPressEvent(QKeyEvent *event)
 {
-    const float sensitivity = 0.01f;
-    if(camera == NULL)
-        return;
-    switch(event->key())
-    {
-        case Qt::Key_Up:
-            camera->ProcessKeyboard(FORWARD, sensitivity);
-            this->update();
-            break;
-        case Qt::Key_Down:
-            camera->ProcessKeyboard(BACKWARD, sensitivity);
-            this->update();
-            break;
-        case Qt::Key_Right:
-            camera->ProcessKeyboard(RIGHT, sensitivity);
-            this->update();
-            break;
-        case Qt::Key_Left:
-            camera->ProcessKeyboard(LEFT, sensitivity);
-            this->update();
-            break;
-    }
+}
 
+void OpenGLWidget::wheelEvent(QWheelEvent *event)
+{
+    camera->WheelEvent(event);
+    this->update();
 }
 
 void OpenGLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if(!isMoving)
-        return;
-    auto dx = lastPosition.x() - event->pos().x();
-    auto dy = lastPosition.y() - event->pos().y();
-    lastPosition = event->pos();
-    camera->ProcessMouseMovement(dx, dy);
-    this->update();
+    if(camera->MouseMove(event))
+        this->update();
 }
 
 void OpenGLWidget::mousePressEvent(QMouseEvent *event)
 {
-   isMoving = true;
-   lastPosition = event->pos();
+    camera->MousePressed(event);
 }
 
 void OpenGLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    isMoving = false;
+    camera->MouseReleased(event);
 }

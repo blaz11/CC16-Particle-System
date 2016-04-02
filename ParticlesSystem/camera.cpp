@@ -1,77 +1,129 @@
 #include "camera.h"
 
-Camera::Camera(glm::vec3 position, glm::vec3 up,
-               float yaw, float pitch) :
-                    front(glm::vec3(0.0f, 0.0f, 0.0f)),
-                    movement_speed(SPEED),
-                    mouse_sensitivity(SENSITIVTY),
-                    zoom(ZOOM)
+const int CAMERA_RADIUS = 8;
+const double ZOOM_SPEED = 0.0003;
+#define SCENE_WIDTH 800
+#define SCENE_HEIGHT 600
+
+bool IsLeftButtonPressed(QMouseEvent* ev)
 {
-    this->position = position;
-    this->up = up;
-    this->yaw = yaw;
-    this->pitch = pitch;
-    this->updateCameraVectors();
+    return ev->buttons() & Qt::LeftButton;
+}
+
+bool IsRightButtonPressed(QMouseEvent* ev)
+{
+    return ev->buttons() & Qt::RightButton;
+}
+
+bool IsMouseOutSideScene(QPoint new_position)
+{
+    return new_position.x() < 0 ||
+           new_position.x() > SCENE_WIDTH ||
+           new_position.y() < 0 ||
+           new_position.y() > SCENE_HEIGHT;
+}
+
+Camera::Camera(glm::vec3 object_center, float dist) :
+    camera_target(object_center),
+    up_vector(glm::vec3(0.0f, 1.0f, 0.0f))
+{
+    distance = dist + CAMERA_RADIUS;
+    qDebug() << dist;
+    radius = dist;
+    phi = M_PI;
+    theta = M_PI / 2;
+    leftButtonPressed = false;
+}
+
+void Camera::WheelEvent(QWheelEvent *ev)
+{
+    auto zoom_change = distance * ev->angleDelta().y() * ZOOM_SPEED;
+    radius -= zoom_change;
+}
+
+bool Camera::MouseMove(QMouseEvent* ev)
+{
+    QPoint new_position = ev->pos();
+    if(IsMouseOutSideScene(new_position))
+    {
+        rightButtonPressed = false;
+        leftButtonPressed = false;
+        return false;
+    }
+    bool res = false;
+    if(leftButtonPressed)
+    {
+        auto d_x = (new_position.x() - last_position.x()) * ROTATION_MULTIPLIER;
+        auto d_y = (new_position.y() - last_position.y()) * ROTATION_MULTIPLIER;
+        theta += d_y*theta_sign;
+        phi += d_x*theta_sign;
+        //qDebug() << "Phi: " << phi / M_PI;
+        //qDebug() << "Theta: " << theta / M_PI;
+        if(theta > M_PI)
+        {
+            theta = M_PI - EPSILON;
+            phi += M_PI;
+            up_vector *= -1;
+            theta_sign *= -1;
+        }
+        else if(theta < EPSILON)
+        {
+            theta = EPSILON;
+            phi += M_PI;
+            up_vector *= -1;
+            theta_sign *= -1;
+        }
+        if(phi < 0)
+            phi += 2 * M_PI;
+        else if(phi > 2*M_PI)
+            phi -= 2 * M_PI;
+        res = true;
+    }
+    if(rightButtonPressed)
+    {
+
+    }
+    last_position = new_position;
+    return res;
+}
+
+void Camera::MousePressed(QMouseEvent* ev)
+{
+    if(IsLeftButtonPressed(ev))
+    {
+        leftButtonPressed = true;
+        last_position = ev->pos();
+    }
+    if(IsRightButtonPressed(ev))
+    {
+       rightButtonPressed = true;
+    }
+}
+
+void Camera::MouseReleased(QMouseEvent* ev)
+{
+    if(!IsLeftButtonPressed(ev))
+        leftButtonPressed = false;
+    if(!IsRightButtonPressed(ev))
+        rightButtonPressed = false;
 }
 
 glm::mat4 Camera::GetViewMatrix()
 {
-    return glm::lookAt(this->position, this->position + this->front, this->up);
+    auto new_coordinates = getCoordinatesVector();
+    camera_position = new_coordinates;
+    return glm::lookAt(camera_position, camera_target, up_vector);
 }
 
-void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
+glm::vec3 Camera::getCoordinatesVector()
 {
-    float velocity = this->movement_speed * deltaTime;
-    if (direction == FORWARD)
-        this->position += this->front * velocity;
-    if (direction == BACKWARD)
-        this->position -= this->front * velocity;
-    if (direction == LEFT)
-        this->position -= this->right * velocity;
-    if (direction == RIGHT)
-        this->position += this->right * velocity;
+    auto new_x = -radius*sin(theta)*cos(phi);
+    auto new_y = -radius*cos(theta);
+    auto new_z = -radius*sin(theta)*sin(phi);
+    return glm::vec3(new_x,new_y,new_z) + camera_target;
 }
 
-void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch)
+glm::vec3 Camera::GetUpVector()
 {
-    xoffset *= this->mouse_sensitivity;
-    yoffset *= this->mouse_sensitivity;
-
-    this->yaw   += xoffset;
-    this->pitch += yoffset;
-
-    // Make sure that when pitch is out of bounds, screen doesn't get flipped
-    if (constrainPitch)
-    {
-        if (this->pitch > 89.0f)
-            this->pitch = 89.0f;
-        if (this->pitch < -89.0f)
-            this->pitch = -89.0f;
-    }
-
-    // Update Front, Right and Up Vectors using the updated Eular angles
-    this->updateCameraVectors();
-}
-
-void Camera::ProcessMouseScroll(float yoffset)
-{
-    if (this->zoom >= 1.0f && this->zoom <= 45.0f)
-        this->zoom -= yoffset;
-    if (this->zoom <= 1.0f)
-        this->zoom = 1.0f;
-    if (this->zoom >= 45.0f)
-        this->zoom = 45.0f;
-}
-
-void Camera::updateCameraVectors()
-{
-    // Calculate the new Front vector
-    glm::vec3 front;
-    front.x = cos(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
-    front.y = sin(glm::radians(this->pitch));
-    front.z = sin(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
-    this->front = glm::normalize(front);
-    // Also re-calculate the Right and Up vector
-    this->right = glm::normalize(glm::cross(this->front, this->up));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-    this->up    = glm::normalize(glm::cross(this->right, this->front));
+    return up_vector;
 }

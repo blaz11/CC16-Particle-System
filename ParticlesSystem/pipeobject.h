@@ -27,7 +27,8 @@ private:
     glm::mat4 projection;
     int numberOfVertices;
     QOpenGLVertexArrayObject vao;
-    vector<GLfloat> generatePipeVertices(const float R1, const float R2, const float H);
+    void generatePipeVertices(const float radius, const float height, vector<GLfloat>& vertices,
+                              vector<GLfloat>& normals, vector<GLfloat>& textures);
 
 };
 

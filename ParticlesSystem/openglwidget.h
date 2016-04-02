@@ -36,9 +36,9 @@ private:
     Camera* camera;
     Shader* shader;
     vector<DrawableObject*> objects;
-    QPoint lastPosition;
-    bool isMoving;
+
     void keyPressEvent(QKeyEvent* event);
+    void wheelEvent(QWheelEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
