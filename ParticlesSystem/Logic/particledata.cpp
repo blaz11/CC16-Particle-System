@@ -1,4 +1,5 @@
 #include "particledata.h"
+#include <glm/vec3.hpp>
 
 ParticleData::ParticleData(size_t maxSize)
 {
@@ -44,4 +45,13 @@ void ParticleData::swapData(size_t a, size_t b)
     std::swap(m_acc[a], m_acc[b]);
     std::swap(m_time[a], m_time[b]);
     std::swap(m_alive[a], m_alive[b]);
+}
+
+
+glm::vec3 ParticleData::positionAtTime(size_t i, double t)
+{
+    glm::vec3 tmp = glm::vec3(m_vel[i]);
+    tmp *= t;
+    tmp += glm::vec3(m_pos[i]);
+    return tmp;
 }

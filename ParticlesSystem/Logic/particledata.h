@@ -22,6 +22,8 @@ public:
     void kill(size_t id);
     void wake(size_t id);
     void swapData(size_t a, size_t b);
+
+    glm::vec3 positionAtTime(size_t i, double t);
 };
 
 #endif // PARTICLEDATA_H
