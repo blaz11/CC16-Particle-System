@@ -2,6 +2,8 @@
 #define PARTICLEDATA_H
 #include <memory>
 #include <glm/vec4.hpp>
+#include <time.h>
+#include <cmath>
 
 class ParticleData
 {
@@ -9,7 +11,7 @@ public:
     std::unique_ptr<glm::vec4[]> m_pos;
     std::unique_ptr<glm::vec4[]> m_vel;
     std::unique_ptr<glm::vec4[]> m_acc;
-    std::unique_ptr<int[]> m_time;
+    std::unique_ptr<float[]> m_time;
     std::unique_ptr<bool[]>  m_alive;
 
     size_t m_count{ 0 };

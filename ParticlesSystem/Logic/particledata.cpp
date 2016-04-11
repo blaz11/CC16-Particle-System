@@ -14,7 +14,7 @@ void ParticleData::generate(size_t maxSize)
     m_pos.reset(new glm::vec4[maxSize]);
     m_vel.reset(new glm::vec4[maxSize]);
     m_acc.reset(new glm::vec4[maxSize]);
-    m_time.reset(new int[maxSize]);
+    m_time.reset(new float[maxSize]);
     m_alive.reset(new bool[maxSize]);
 }
 

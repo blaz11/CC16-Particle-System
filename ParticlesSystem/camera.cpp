@@ -92,12 +92,12 @@ void Camera::MousePressed(QMouseEvent* ev)
     if(IsLeftButtonPressed(ev))
     {
         leftButtonPressed = true;
-        last_position = ev->pos();
     }
     if(IsRightButtonPressed(ev))
     {
        rightButtonPressed = true;
     }
+    last_position = ev->pos();
 }
 
 void Camera::MouseReleased(QMouseEvent* ev)

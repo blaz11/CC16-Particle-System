@@ -8,55 +8,115 @@ ParticleSystemRender::ParticleSystemRender(ParticleSystem* sys)
 
 void ParticleSystemRender::initialize(QOpenGLFunctions *f)
 {
+    int p = 0;
+    GLfloat part, i, j, step, mirror, x, y, z, length;
     projection = glm::perspective(45.0f, 2.0f, 0.01f, 100.0f);
 //    vector<GLfloat> positions, normals, textures;
 //    positions.push_back(0.0f);
 //    positions.push_back(0.0f);
 //    positions.push_back(0.0f);
-    GLfloat vertices[] = {
-        -0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
+    part = 8;
+    step = (GLfloat)2 / part;
+    numberOfVertices = part * part * 36 * 3;
+    GLfloat vertices[numberOfVertices] = { 0 };
 
-        -0.5f, -0.5f,  0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        -0.5f, -0.5f,  0.5f,
+    for(mirror = -1; mirror <= 1; mirror+=2)
+        for(i = -1; i < 1; i+=step)
+            for(j = -1; j < 1; j+=step)
+            {
+                //left right
+                vertices[p++] = i;
+                vertices[p++] = j;
+                vertices[p++] = mirror;
 
-        -0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
+                vertices[p++] = i + step;
+                vertices[p++] = j;
+                vertices[p++] = mirror;
 
-         0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
+                vertices[p++] = i;
+                vertices[p++] = j + step;
+                vertices[p++] = mirror;
 
-        -0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f, -0.5f,  0.5f,
-        -0.5f, -0.5f,  0.5f,
-        -0.5f, -0.5f, -0.5f,
 
-        -0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f, -0.5f,
-    };
-    numberOfVertices = 36;
+                vertices[p++] = i + step;
+                vertices[p++] = j;
+                vertices[p++] = mirror;
+
+                vertices[p++] = i;
+                vertices[p++] = j + step;
+                vertices[p++] = mirror;
+
+                vertices[p++] = i + step;
+                vertices[p++] = j + step;
+                vertices[p++] = mirror;
+
+                //top bottom
+                vertices[p++] = i;
+                vertices[p++] = mirror;
+                vertices[p++] = j;
+
+                vertices[p++] = i + step;
+                vertices[p++] = mirror;
+                vertices[p++] = j;
+
+                vertices[p++] = i;
+                vertices[p++] = mirror;
+                vertices[p++] = j + step;
+
+
+                vertices[p++] = i + step;
+                vertices[p++] = mirror;
+                vertices[p++] = j;
+
+                vertices[p++] = i;
+                vertices[p++] = mirror;
+                vertices[p++] = j + step;
+
+                vertices[p++] = i + step;
+                vertices[p++] = mirror;
+                vertices[p++] = j + step;
+
+                //front back
+                vertices[p++] = mirror;
+                vertices[p++] = i;
+                vertices[p++] = j;
+
+                vertices[p++] = mirror;
+                vertices[p++] = i + step;
+                vertices[p++] = j;
+
+                vertices[p++] = mirror;
+                vertices[p++] = i;
+                vertices[p++] = j + step;
+
+
+                vertices[p++] = mirror;
+                vertices[p++] = i + step;
+                vertices[p++] = j;
+
+                vertices[p++] = mirror;
+                vertices[p++] = i;
+                vertices[p++] = j + step;
+
+                vertices[p++] = mirror;
+                vertices[p++] = i + step;
+                vertices[p++] = j + step;
+            }
+
+    for(p = 0; p < numberOfVertices; p += 3)
+    {
+        x = vertices[p];
+        y = vertices[p + 1];
+        z = vertices[p + 2];
+        length = (GLfloat)sqrt((GLfloat)(x*x + y*y + z*z));
+        if(length > 0)
+        {
+            vertices[p] = x/length;
+            vertices[p+1] = y/length;
+            vertices[p+2] = z/length;
+        }
+    }
+
     GLuint VBO;
     vao.create();
     f->glGenBuffers(1, &VBO);

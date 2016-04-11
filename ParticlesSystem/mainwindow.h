@@ -16,7 +16,16 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private:
+    private slots:
+        void on_horizontalSlider_sliderMoved(int position);
+        void on_spinBox_valueChanged(int arg);
+        void on_horizontalSlider_2_sliderMoved(int position);
+        void on_spinBox_2_valueChanged(int arg);
+        void on_spinBox_3_valueChanged(int arg);
+        void on_spinBox_4_valueChanged(int arg);
+        void on_spinBox_5_valueChanged(int arg);
+
+    private:
     Ui::MainWindow *ui;
 
 };
