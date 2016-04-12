@@ -16,6 +16,7 @@ void ParticleData::generate(size_t maxSize)
     m_acc.reset(new glm::vec4[maxSize]);
     m_time.reset(new float[maxSize]);
     m_alive.reset(new bool[maxSize]);
+    hasMoved.reset(new bool[maxSize]);
 }
 
 void ParticleData::kill(size_t id)
@@ -54,4 +55,10 @@ glm::vec3 ParticleData::positionAtTime(size_t i, double t)
     tmp *= t;
     tmp += glm::vec3(m_pos[i]);
     return tmp;
+}
+
+void ParticleData::nextFrame()
+{
+    for(int i=0;i < m_countAlive; ++i)
+        hasMoved[i] = false;
 }

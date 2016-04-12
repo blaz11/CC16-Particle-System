@@ -9,16 +9,17 @@ ParticleSystemRender::ParticleSystemRender(ParticleSystem* sys)
 void ParticleSystemRender::initialize(QOpenGLFunctions *f)
 {
     int p = 0;
-    GLfloat part, i, j, step, mirror, x, y, z, length;
+    GLfloat i, j, step, mirror, x, y, z, length;
     projection = glm::perspective(45.0f, 2.0f, 0.01f, 100.0f);
 //    vector<GLfloat> positions, normals, textures;
 //    positions.push_back(0.0f);
 //    positions.push_back(0.0f);
 //    positions.push_back(0.0f);
-    part = 8;
+    const GLfloat part = 8;
+    const int verticesCount = part*part*36*3;
     step = (GLfloat)2 / part;
     numberOfVertices = part * part * 36 * 3;
-    GLfloat vertices[numberOfVertices] = { 0 };
+    GLfloat vertices[192*36];
 
     for(mirror = -1; mirror <= 1; mirror+=2)
         for(i = -1; i < 1; i+=step)

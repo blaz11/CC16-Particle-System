@@ -27,6 +27,7 @@ public:
     double R;
     double touchTime;
 public:
+    EulerUpdater();
     virtual void update(double dt, ParticleData *p) override;
 };
 
