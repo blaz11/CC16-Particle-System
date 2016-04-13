@@ -4,6 +4,8 @@
 ParticleData::ParticleData(size_t maxSize)
 {
     generate(maxSize);
+    globalAcceleration = glm::vec3(0,-0.1,0);
+    stickiness = 0.0089;
 }
 
 void ParticleData::generate(size_t maxSize)

@@ -2,9 +2,9 @@
 
 Settings::Settings()
 {
-    velocityValue = 20;
-    liveTime = 100;
+    velocityValue = 1;
+    liveTime = 1000;
     variation = 10;
     count = 50;
-    valocityVector = new glm::vec4(1, 0, 0, 0);
+    valocityVector = new glm::vec4(0, 0, 0, 0);
 }

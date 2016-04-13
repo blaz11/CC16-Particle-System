@@ -17,7 +17,7 @@ ParticleSystem::ParticleSystem(size_t maxParticles, MainWindow* mainWin)
 
 void ParticleSystem::initEmitter(MainWindow* mainWin)
 {
-    auto emitter = make_shared<ParticleEmitter>(DEFAULT_EMIT_RATE*maxParticles);
+    auto emitter = make_shared<ParticleEmitter>(mainWin);
     std::shared_ptr<ParticleGenerator> pos = make_shared<PositionGenerator>();
     pos.get()->mainWin = mainWin;
     emitter->addGenerator(pos);

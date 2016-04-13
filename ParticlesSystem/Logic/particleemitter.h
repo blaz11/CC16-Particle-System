@@ -9,8 +9,9 @@ class ParticleEmitter
 private:
     double m_emitRate;
     std::vector<std::shared_ptr<ParticleGenerator>> m_generators;
+    MainWindow* mainWindow;
 public:
-    ParticleEmitter(double m_emitRate);
+    ParticleEmitter(MainWindow* mainWindow);
     void _emit(double dt, ParticleData *p);
     void addGenerator(std::shared_ptr<ParticleGenerator> generator);
 };

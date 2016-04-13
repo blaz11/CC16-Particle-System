@@ -23,12 +23,12 @@ private:
 class EulerUpdater : public ParticleUpdater
 {
 public:
-    glm::vec4 m_globalAcceleration{ 0.0f };
     double R;
     double touchTime;
 public:
     EulerUpdater();
     virtual void update(double dt, ParticleData *p) override;
+    glm::vec3 findCenter(ParticleData *p);
 };
 
 #endif // EULERUPDATER_H

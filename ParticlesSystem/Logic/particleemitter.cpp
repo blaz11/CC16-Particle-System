@@ -1,14 +1,15 @@
 #include "particleemitter.h"
 #include <algorithm>
 
-ParticleEmitter::ParticleEmitter(double m_emitRate)
+ParticleEmitter::ParticleEmitter(MainWindow* mainWindow)
 {
-    this->m_emitRate = m_emitRate;
+    this->mainWindow = mainWindow;
 }
 
 void ParticleEmitter::_emit(double dt, ParticleData* p)
 {
-    const size_t maxNewParticles = static_cast<size_t>(dt*m_emitRate);
+    int emitRate = mainWindow->sett->count;
+    const size_t maxNewParticles = static_cast<size_t>(dt*emitRate);
     const size_t startId = p->m_countAlive;
     const size_t endId = std::min(startId + maxNewParticles, p->m_count-1);
 

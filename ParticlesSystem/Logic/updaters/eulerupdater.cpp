@@ -1,6 +1,7 @@
 #include "eulerupdater.h"
 #include <qdebug.h>
 #include <glm/gtx/norm.hpp>
+#include <qmath.h>
 #include "glm/ext.hpp"
 
 EulerUpdater::EulerUpdater()
@@ -11,9 +12,9 @@ EulerUpdater::EulerUpdater()
 
 void EulerUpdater::update(double dt, ParticleData *p)
 {
-    const glm::vec4 globalA{ dt * m_globalAcceleration.x,
-                             dt * m_globalAcceleration.y,
-                             dt * m_globalAcceleration.z,
+    const glm::vec4 globalA{ dt * p->globalAcceleration.x,
+                             dt * p->globalAcceleration.y,
+                             dt * p->globalAcceleration.z,
                              0.0 };
     const float localDT = (float)dt;
 
@@ -26,7 +27,12 @@ void EulerUpdater::update(double dt, ParticleData *p)
     detector.updateAll();
 
     for (size_t i = 0; i < endId; ++i)
-        p->m_vel[i] += localDT * p->m_acc[i];
+    {
+        p->m_acc[i] = -6*M_PI*p->stickiness*R*p->m_vel[i];
+        p->m_vel[i] += localDT * p->m_acc[i] + globalA;
+        if(p->m_pos[i].y < -10)
+            p->m_vel[i].y = -p->m_vel[i].y;
+    }
 }
 
 PPCollisionDetector::PPCollisionDetector(double dt, ParticleData *p, double R, double touchTime)
@@ -92,8 +98,6 @@ glm::vec4 addVectors(glm::vec4 a, glm::vec4 b)
 
 void PPCollisionDetector::handleCollision(double t, size_t i, size_t j)
 {
-    qDebug() << "Crash (" << i <<", " << j << ") @ "<<t;
-    qDebug() << "v1=" << to_string(p->m_vel[i]).c_str() << ", v2=" << to_string(p->m_vel[j]).c_str();
     glm::vec3 pos1 = p->positionAtTime(i, t);
     glm::vec3 pos2 = p->positionAtTime(j, t);
 
@@ -101,32 +105,24 @@ void PPCollisionDetector::handleCollision(double t, size_t i, size_t j)
     p->m_pos[j] = glm::vec4(pos2, 0);
     glm::vec3 dp = glm::vec3(pos1 - pos2);
     dp = normalize(dp);
-    qDebug() << "dp=" << to_string(dp).c_str();
     glm::vec4 oldVel = p->m_vel[j];
     glm::vec3 dv = glm::vec3(p->m_vel[i].x - p->m_vel[j].x,
                    p->m_vel[i].y - p->m_vel[j].y,
                    p->m_vel[i].z - p->m_vel[j].z);
     glm::vec3 normalizedDv = dv;
     normalizedDv = normalize(normalizedDv);
-    qDebug() << "normalizedDv=" << to_string(dv).c_str();
-    qDebug() <<"oldVel=" << to_string(oldVel).c_str();
 
     p->m_vel[i] = glm::vec4(dv,1);
     p->m_vel[i] *= dot(dp, normalizedDv);
-    qDebug() << "cos=" << dot(dp, normalizedDv);
     p->m_vel[j] = glm::vec4(dv,1);
     p->m_vel[j] *= length(cross(dp, normalizedDv));
-    qDebug() << "sin=" << length(cross(dp, normalizedDv));
 
     p->m_vel[i] = addVectors(p->m_vel[i], oldVel);
     p->m_vel[j] = addVectors(p->m_vel[j], oldVel);
-    qDebug() << "v1'=" <<to_string(p->m_vel[i]).c_str() << ", v2'="<< to_string(p->m_vel[j]).c_str();
 }
 
 void PPCollisionDetector::skipToEnd(double dt, size_t i)
 {
-    if(dt < 1)
-        qDebug() << "skipToEnd, dt=" << dt;
     if(dt > 0)
     {
         glm::vec4 tmp = p->m_vel[i];

@@ -77,7 +77,7 @@
         <number>200</number>
        </property>
        <property name="value">
-        <number>50</number>
+        <number>1</number>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -153,7 +153,7 @@
         <number>1</number>
        </property>
        <property name="value">
-        <number>1</number>
+        <number>0</number>
        </property>
       </widget>
       <widget class="QSpinBox" name="spinBox_2">
@@ -216,10 +216,10 @@
         </rect>
        </property>
        <property name="maximum">
-        <number>200</number>
+        <number>1000</number>
        </property>
        <property name="value">
-        <number>100</number>
+        <number>1000</number>
        </property>
       </widget>
       <widget class="QSpinBox" name="spinBox_5">
@@ -231,11 +231,14 @@
          <height>22</height>
         </rect>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
        <property name="maximum">
-        <number>1000</number>
+        <number>10</number>
        </property>
        <property name="value">
-        <number>50</number>
+        <number>10</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_4">
@@ -284,7 +287,7 @@
      <x>0</x>
      <y>0</y>
      <width>625</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
