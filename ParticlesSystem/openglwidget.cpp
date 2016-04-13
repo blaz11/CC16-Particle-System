@@ -1,7 +1,9 @@
 #include "openglwidget.h"
+#include "mainwindow.h"
 
-OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent), system(25)
+OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent), system(25, (MainWindow*)(this->parentWidget()->parentWidget()))
 {
+    MainWindow* t = (MainWindow*)(this->parentWidget()->parentWidget());
 }
 
 OpenGLWidget::~OpenGLWidget()

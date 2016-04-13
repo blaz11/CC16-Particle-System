@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     Logic/updaters/eulerupdater.cpp \
     Logic/updaters/timeupdater.cpp \
     Logic/particlesystem.cpp \
-    particlesystemrender.cpp
+    particlesystemrender.cpp \
+    settings.cpp
 
 HEADERS  += mainwindow.h \
     openglwidget.h \
@@ -195,7 +196,8 @@ HEADERS  += mainwindow.h \
     Logic/updaters/eulerupdater.h \
     Logic/updaters/timeupdater.h \
     Logic/particlesystem.h \
-    particlesystemrender.h
+    particlesystemrender.h \
+    settings.h
 
 FORMS    += mainwindow.ui
 

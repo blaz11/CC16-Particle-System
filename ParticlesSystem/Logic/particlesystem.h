@@ -15,11 +15,11 @@ private:
     std::vector<std::shared_ptr<ParticleEmitter>> emitters;
     std::vector<std::shared_ptr<ParticleUpdater>> updaters;
 public:
-    ParticleSystem(size_t maxParticles);
+    ParticleSystem(size_t maxParticles, MainWindow* mainWin);
     void update(double dt);
     std::vector<glm::vec3> getParticlePositions();
 private:
-    void initEmitter();
+    void initEmitter(MainWindow* mainWin);
     void initUpdaters();
 };
 

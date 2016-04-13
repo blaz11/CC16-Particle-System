@@ -4,24 +4,28 @@
 #include "generators/velocitygenerator.h"
 #include "updaters/timeupdater.h"
 #include "updaters/eulerupdater.h"
+#include "mainwindow.h"
 using namespace std;
 
-ParticleSystem::ParticleSystem(size_t maxParticles)
+ParticleSystem::ParticleSystem(size_t maxParticles, MainWindow* mainWin)
     : particleData(maxParticles)
 {
     this->maxParticles = maxParticles;
-    initEmitter();
+    initEmitter(mainWin);
     initUpdaters();
 }
 
-void ParticleSystem::initEmitter()
+void ParticleSystem::initEmitter(MainWindow* mainWin)
 {
     auto emitter = make_shared<ParticleEmitter>(DEFAULT_EMIT_RATE*maxParticles);
-    auto pos = make_shared<PositionGenerator>();
+    std::shared_ptr<ParticleGenerator> pos = make_shared<PositionGenerator>();
+    pos.get()->mainWin = mainWin;
     emitter->addGenerator(pos);
-    auto vel = make_shared<VelocityGenerator>();
+    std::shared_ptr<ParticleGenerator> vel = make_shared<VelocityGenerator>();
+    vel.get()->mainWin = mainWin;
     emitter->addGenerator(vel);
-    auto time = make_shared<TimeGenerator>();
+    std::shared_ptr<ParticleGenerator> time = make_shared<TimeGenerator>();
+    time.get()->mainWin = mainWin;
     emitter->addGenerator(time);
     emitters.push_back(emitter);
 }

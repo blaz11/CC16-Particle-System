@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "settings.h"
 
 namespace Ui
 {
@@ -14,6 +15,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    Settings* sett;
     ~MainWindow();
 
     private slots:
@@ -24,6 +26,7 @@ public:
         void on_spinBox_3_valueChanged(int arg);
         void on_spinBox_4_valueChanged(int arg);
         void on_spinBox_5_valueChanged(int arg);
+        void normalize();
 
     private:
     Ui::MainWindow *ui;
