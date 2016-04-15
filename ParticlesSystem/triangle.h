@@ -65,9 +65,9 @@ public:
         vector<glm::vec3> previousLine;
         for(double t2 = 0; t2 < 2*M_PI; t2 += step)
         {
-            double x = 0.5*sin(t2);
+            double x = 0.5*sin(t2)*t1;
             double y = 0.5*t1;
-            double z = 0.5*cos(t2);
+            double z = 0.5*cos(t2)*t1;
             glm::vec3 vec(x,y,z);
             previousLine.push_back(vec);
         }
@@ -83,9 +83,9 @@ public:
         vector<glm::vec3> nextLine;
         for(double t2 = 0; t2 < 2*M_PI; t2 += step)
         {
-            double x = 0.5*sin(t2);
+            double x = 0.5*sin(t2)*t1;
             double y = 0.5*t1;
-            double z = 0.5*cos(t2);
+            double z = 0.5*cos(t2)*t1;
             glm::vec3 vec(x,y,z);
             nextLine.push_back(vec);
         }
@@ -121,10 +121,23 @@ public:
             poses.push_back(t.vertex1.position.x);
             poses.push_back(t.vertex1.position.y);
             poses.push_back(t.vertex1.position.z);
-            //qDebug() << t.vertex1.position.x << " " << t.vertex1.position.y << " " << t.vertex1.position.z << ";";
             norms.push_back(t.vertex1.normal.x);
             norms.push_back(t.vertex1.normal.y);
             norms.push_back(t.vertex1.normal.z);
+
+            poses.push_back(t.vertex2.position.x);
+            poses.push_back(t.vertex2.position.y);
+            poses.push_back(t.vertex2.position.z);
+            norms.push_back(t.vertex2.normal.x);
+            norms.push_back(t.vertex2.normal.y);
+            norms.push_back(t.vertex2.normal.z);
+
+            poses.push_back(t.vertex3.position.x);
+            poses.push_back(t.vertex3.position.y);
+            poses.push_back(t.vertex3.position.z);
+            norms.push_back(t.vertex3.normal.x);
+            norms.push_back(t.vertex3.normal.y);
+            norms.push_back(t.vertex3.normal.z);
         }
     }
 

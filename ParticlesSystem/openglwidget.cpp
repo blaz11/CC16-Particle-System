@@ -28,7 +28,7 @@ void OpenGLWidget::removeObjectFromScene(DrawableObject *object)
 void OpenGLWidget::initializeGL()
 {
     auto pipeObject = new PipeObject();
-//    addObjectToScene(pipeObject);
+    addObjectToScene(pipeObject);
     auto particleRenderer = new ParticleSystemRender(&system);
     addObjectToScene(particleRenderer);
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
