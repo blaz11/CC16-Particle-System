@@ -9,6 +9,7 @@
 #include <Libraries/glm/glm.hpp>
 #include <Qdebug>
 #include <QPoint>
+#include <QTimer>
 #include "drawableobject.h"
 #include "camera.h"
 #include "shader.h"
@@ -20,6 +21,7 @@ using namespace std;
 
 class OpenGLWidget : public QOpenGLWidget
 {
+        Q_OBJECT
 
 public:
     OpenGLWidget(QWidget *parent);
@@ -40,11 +42,13 @@ private:
     ParticleSystem system;
     vector<DrawableObject*> objects;
 
-    void keyPressEvent(QKeyEvent* event);
     void wheelEvent(QWheelEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
+
+private slots:
+    void drawingLoop();
 
 };
 

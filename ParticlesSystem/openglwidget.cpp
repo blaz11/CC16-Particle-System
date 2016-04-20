@@ -4,6 +4,10 @@
 OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent), system(500000, (MainWindow*)(this->parentWidget()->parentWidget()))
 {
     MainWindow* t = (MainWindow*)(this->parentWidget()->parentWidget());
+
+    QTimer* timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(drawingLoop()));
+    timer->start(100);
 }
 
 OpenGLWidget::~OpenGLWidget()
@@ -60,7 +64,7 @@ void OpenGLWidget::paintGL()
     }
 }
 
-void OpenGLWidget::keyPressEvent(QKeyEvent *event)
+void OpenGLWidget::drawingLoop()
 {
     system.update(1);
 #ifdef NO_CHANCE_THAT_THIS_SYMBOL_WILL_EVER_EXIST
