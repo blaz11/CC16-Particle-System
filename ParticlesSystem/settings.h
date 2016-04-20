@@ -12,7 +12,8 @@ class Settings
         int liveTime;
         int variation;
         int count;
-        glm::vec4* valocityVector;
+        glm::vec4 velocityVector;
+        glm::vec4 startPosition;
 };
 
 #endif // SETTINGS_H

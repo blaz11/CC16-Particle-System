@@ -1,8 +1,10 @@
 #include "pipeobject.h"
 
-PipeObject::PipeObject()
+PipeObject::PipeObject(double angle, double size, glm::vec3 translation)
 {
-
+    this->angle = angle;
+    this->size = size;
+    this->translation = translation;
 }
 
 PipeObject::~PipeObject()
@@ -12,11 +14,11 @@ PipeObject::~PipeObject()
 
 void PipeObject::initialize(QOpenGLFunctions *f)
 {
-    projection = glm::perspective(45.0f, 2.0f, 0.01f, 100.0f);
+    projection = glm::perspective(45.0f, 2.0f, 0.01f, 250.0f);
     vector<GLfloat> positions, normals, textures;
  //   generatePipeVertices(1, 1, positions, normals, textures);
  //   numberOfVertices = positions.size() / 3;
-    Cylinder cylinder;
+    Cylinder cylinder(angle, size, translation);
     cylinder.generateDataForVBOs(positions, normals);
     numberOfVertices = positions.size() / 3;
     GLuint VBO;
@@ -44,7 +46,7 @@ void PipeObject::draw(QOpenGLFunctions *f, Shader* shader, glm::mat4 view)
     f->glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
     f->glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     f->glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-    f->glUniform3f(colorLoc, 0.0f, 1.0f, 0.0f);
+    f->glUniform3f(colorLoc, 1.0f, 1.0f, 0.0f);
     f->glDrawArrays(GL_TRIANGLE_STRIP, 0, numberOfVertices);
     vao.release();
 }

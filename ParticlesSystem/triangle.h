@@ -59,35 +59,29 @@ public:
 class Cylinder
 {
 public:
-    Cylinder()
+    Cylinder(double angle, double size, glm::vec3 translation)
     {
+        this->angle = angle;
+        this->translation = translation;
+        this->size = size;
+
         double t1 = 1, step = M_PI/16;
         vector<glm::vec3> previousLine;
-        for(double t2 = 0; t2 < 2*M_PI; t2 += step)
+        for(double t2 = 2*M_PI; t2 > 0; t2 -= step)
         {
             double x = 0.5*sin(t2)*t1;
             double y = 0.5*t1;
             double z = 0.5*cos(t2)*t1;
-            glm::vec3 vec(x,y,z);
-            previousLine.push_back(vec);
-        }
-        for(uint i = 0 ; i < previousLine.size(); ++i)
-        {
-            Vertex v1(previousLine[i], glm::vec3(0, 1, 0));
-            Vertex v2(previousLine[(i+1)%previousLine.size()], glm::vec3(0, 1, 0));
-            Vertex v3(glm::vec3(0, 0.5, 0), glm::vec3(0, 1, 0));
-            Triangle t(v1, v2, v3);
-            triangles.push_back(t);
+            previousLine.push_back(calculateVec(x, y, z));
         }
         t1 = -1;
         vector<glm::vec3> nextLine;
-        for(double t2 = 0; t2 < 2*M_PI; t2 += step)
+        for(double t2 = 3*M_PI; t2 > M_PI; t2 -= step)
         {
             double x = 0.5*sin(t2)*t1;
             double y = 0.5*t1;
             double z = 0.5*cos(t2)*t1;
-            glm::vec3 vec(x,y,z);
-            nextLine.push_back(vec);
+            nextLine.push_back(calculateVec(x, y, z));
         }
         for(uint  i = 0 ; i < nextLine.size(); ++i)
         {
@@ -102,14 +96,6 @@ public:
                     normalVector(nextLine[(i + 1) % previousLine.size()]));
             triangles.push_back(ts[0]);
             triangles.push_back(ts[1]);
-        }
-        for(uint  i = 0 ; i < nextLine.size(); ++i)
-        {
-            Vertex v1(nextLine[i], glm::vec3(0, -1, 0));
-            Vertex v2(nextLine[(i+1)%nextLine.size()], glm::vec3(0, -1, 0));
-            Vertex v3(glm::vec3(0, -0.5, 0), glm::vec3(0, -1, 0));
-            Triangle t(v1, v2, v3);
-            triangles.push_back(t);
         }
     }
 
@@ -143,11 +129,35 @@ public:
 
 private:
     vector<Triangle> triangles;
+    double angle;
+    double size;
+    glm::vec3 translation;
 
     glm::vec3 normalVector(glm::vec3 p)
     {
         glm::vec3 result(p.x, 0, p.z);
         return glm::normalize(result);
+    }
+
+    glm::vec3 rotate(glm::vec3 vec, double angle)
+    {
+        double y = vec.y * cos(angle) - vec.z * sin(angle);
+        double z = vec.y * sin(angle) + vec.z * cos(angle);
+        glm::vec3 newVec(vec.x, y, z);
+        return newVec;
+    }
+
+    glm::vec3 calculateVec(double x, double y, double z)
+    {
+        glm::vec3 vec(x,y,z);
+        glm::vec3 final = rotate(vec, angle);
+        final.x *= size;
+        final.y *= size;
+        final.z *= size;
+        final.x += translation.x;
+        final.y += translation.y;
+        final.z += translation.z;
+        return final;
     }
 
 };

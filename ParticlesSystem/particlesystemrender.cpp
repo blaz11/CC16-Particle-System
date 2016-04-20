@@ -10,7 +10,7 @@ void ParticleSystemRender::initialize(QOpenGLFunctions *f)
 {
     int p = 0;
     GLfloat i, j, step, mirror, x, y, z, length;
-    projection = glm::perspective(45.0f, 2.0f, 0.01f, 100.0f);
+    projection = glm::perspective(45.0f, 2.0f, 0.01f, 250.0f);
 //    vector<GLfloat> positions, normals, textures;
 //    positions.push_back(0.0f);
 //    positions.push_back(0.0f);
@@ -141,7 +141,7 @@ void ParticleSystemRender::draw(QOpenGLFunctions *f, Shader *shader, glm::mat4 v
     GLint colorLoc = f->glGetUniformLocation(shader->Program, "color");
     f->glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     f->glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-    f->glUniform3f(colorLoc, 0.0f, 1.0f, 0.0f);
+    f->glUniform3f(colorLoc, 0.0f, 0.0f, 1.0f);
     qDebug() << particlesPositions.size();
     for(auto i : particlesPositions)
     {

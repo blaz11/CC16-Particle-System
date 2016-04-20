@@ -27,12 +27,14 @@ void OpenGLWidget::removeObjectFromScene(DrawableObject *object)
 
 void OpenGLWidget::initializeGL()
 {
-    auto pipeObject = new PipeObject();
-    addObjectToScene(pipeObject);
+    auto pipeObject1 = new PipeObject(M_PI / 4, 15, glm::vec3(0, 10, 0));
+    addObjectToScene(pipeObject1);
+    auto pipeObject2 = new PipeObject(3 * M_PI / 4, 20, glm::vec3(0, 30, 5));
+    addObjectToScene(pipeObject2);
     auto particleRenderer = new ParticleSystemRender(&system);
     addObjectToScene(particleRenderer);
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
-    camera = new Camera(glm::vec3(0,0,0), 5);
+    camera = new Camera(glm::vec3(0,0,0), 75);
     shader = new Shader("../ParticlesSystem/vertex_shader.glsl",
                         "../ParticlesSystem/fragment_shader.glsl", f);
     f->glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

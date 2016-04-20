@@ -15,7 +15,7 @@ using namespace std;
 class PipeObject : public DrawableObject
 {
 public:
-    PipeObject();
+    PipeObject(double angle, double size, glm::vec3 translation);
     ~PipeObject() override;
 
     void initialize(QOpenGLFunctions *f) override;
@@ -23,6 +23,9 @@ public:
     void update() override;
 
 private:
+    double angle;
+    double size;
+    glm::vec3 translation;
     const float steps = 32;
     glm::mat4 projection;
     int numberOfVertices;

@@ -27,35 +27,35 @@ void MainWindow::on_horizontalSlider_2_sliderMoved(int position)
 
 void MainWindow::on_spinBox_valueChanged(int arg)
 {
-    sett->valocityVector->x = arg;
+    sett->velocityVector.x = arg;
     normalize();
 }
 
 void MainWindow::on_spinBox_2_valueChanged(int arg)
 {
-    sett->valocityVector->y = arg;
+    sett->velocityVector.y = arg;
     normalize();
 }
 
 void MainWindow::on_spinBox_3_valueChanged(int arg)
 {
-    sett->valocityVector->z = arg;
+    sett->velocityVector.z = arg;
     normalize();
 }
 
 void MainWindow::normalize()
 {
-    float x = sett->valocityVector->x;
-    float y = sett->valocityVector->y;
-    float z = sett->valocityVector->z;
+    float x = sett->velocityVector.x;
+    float y = sett->velocityVector.y;
+    float z = sett->velocityVector.z;
 
     float length = (float)sqrt(x*x + y*y + z*z);
 
     if(length > 0)
     {
-        sett->valocityVector->x = x / length;
-        sett->valocityVector->y = y / length;
-        sett->valocityVector->z = z / length;
+        sett->velocityVector.x = x / length;
+        sett->velocityVector.y = y / length;
+        sett->velocityVector.z = z / length;
     }
 }
 
@@ -67,4 +67,19 @@ void MainWindow::on_spinBox_4_valueChanged(int arg)
 void MainWindow::on_spinBox_5_valueChanged(int arg)
 {
     sett->count = arg;
+}
+
+void MainWindow::on_spinBox_6_valueChanged(int arg)
+{
+    sett->startPosition.x = arg;
+}
+
+void MainWindow::on_spinBox_7_valueChanged(int arg)
+{
+    sett->startPosition.y = arg;
+}
+
+void MainWindow::on_spinBox_8_valueChanged(int arg)
+{
+    sett->startPosition.z = arg;
 }
