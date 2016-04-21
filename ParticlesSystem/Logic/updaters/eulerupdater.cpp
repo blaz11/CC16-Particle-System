@@ -3,27 +3,34 @@
 #include <glm/gtx/norm.hpp>
 #include <qmath.h>
 #include "glm/ext.hpp"
+#include "ptricollisiondetector.h"
 
-EulerUpdater::EulerUpdater()
+EulerUpdater::EulerUpdater(float* triStart, float* triEnd)
 {
+    while(triStart != triEnd)
+    {
+        this->triangles.push_back(Triangle(triStart));
+        triStart += 9;
+    }
     R = 1;
     touchTime = 0;
 }
 
 void EulerUpdater::update(double dt, ParticleData *p)
 {
-    const glm::vec4 globalA{ dt * p->globalAcceleration.x,
+    const glm::vec3 globalA{ dt * p->globalAcceleration.x,
                              dt * p->globalAcceleration.y,
-                             dt * p->globalAcceleration.z,
-                             0.0 };
+                             dt * p->globalAcceleration.z};
     const float localDT = (float)dt;
 
     const size_t endId = p->m_countAlive;
 
     p->nextFrame();
 
-    PPCollisionDetector detector(localDT, p, R, touchTime);
+    PTriCollisionDetector triDetector(localDT, p, R, triangles);
+    triDetector.updateAll();
 
+    PPCollisionDetector detector(localDT, p, R, touchTime);
     detector.updateAll();
 
     for (size_t i = 0; i < endId; ++i)
@@ -47,6 +54,9 @@ void PPCollisionDetector::updateAll()
 {
     for(size_t i = 0; i < p->m_countAlive; ++i)
     {
+        if(p->hasMoved[i])
+            continue;
+
         double collTime = NO_COLLISION;
         size_t colliding = -1;
         for(size_t j = i+1; j < p->m_countAlive; ++j)
@@ -62,6 +72,7 @@ void PPCollisionDetector::updateAll()
         {
             handleCollision(collTime, i, colliding);
             skipToEnd(dt-collTime-touchTime, i);
+            skipToEnd(dt-collTime-touchTime, colliding);
         }
         else
         {
@@ -91,9 +102,9 @@ double PPCollisionDetector::collisionTime(size_t i, size_t j)
     return glm::min(x1,x2);
 }
 
-glm::vec4 addVectors(glm::vec4 a, glm::vec4 b)
+glm::vec3 addVectors(glm::vec3 a, glm::vec3 b)
 {
-    return glm::vec4(a.x+b.x, a.y+b.y,a.z+b.z, a.w + b.w);
+    return glm::vec3(a.x+b.x, a.y+b.y,a.z+b.z);
 }
 
 void PPCollisionDetector::handleCollision(double t, size_t i, size_t j)
@@ -101,20 +112,20 @@ void PPCollisionDetector::handleCollision(double t, size_t i, size_t j)
     glm::vec3 pos1 = p->positionAtTime(i, t);
     glm::vec3 pos2 = p->positionAtTime(j, t);
 
-    p->m_pos[i] = glm::vec4(pos1, 0);
-    p->m_pos[j] = glm::vec4(pos2, 0);
+    p->m_pos[i] = glm::vec3(pos1);
+    p->m_pos[j] = glm::vec3(pos2);
     glm::vec3 dp = glm::vec3(pos1 - pos2);
     dp = normalize(dp);
-    glm::vec4 oldVel = p->m_vel[j];
+    glm::vec3 oldVel = p->m_vel[j];
     glm::vec3 dv = glm::vec3(p->m_vel[i].x - p->m_vel[j].x,
                    p->m_vel[i].y - p->m_vel[j].y,
                    p->m_vel[i].z - p->m_vel[j].z);
     glm::vec3 normalizedDv = dv;
     normalizedDv = normalize(normalizedDv);
 
-    p->m_vel[i] = glm::vec4(dv,1);
+    p->m_vel[i] = glm::vec3(dv);
     p->m_vel[i] *= dot(dp, normalizedDv);
-    p->m_vel[j] = glm::vec4(dv,1);
+    p->m_vel[j] = glm::vec3(dv);
     p->m_vel[j] *= length(cross(dp, normalizedDv));
 
     p->m_vel[i] = addVectors(p->m_vel[i], oldVel);
@@ -123,10 +134,5 @@ void PPCollisionDetector::handleCollision(double t, size_t i, size_t j)
 
 void PPCollisionDetector::skipToEnd(double dt, size_t i)
 {
-    if(dt > 0)
-    {
-        glm::vec4 tmp = p->m_vel[i];
-        tmp *= dt;
-        p->m_pos[i] = addVectors(tmp, p->m_pos[i]);
-    }
+    p->skipToEnd(i, dt);
 }

@@ -12,7 +12,6 @@ ParticleSystem::ParticleSystem(size_t maxParticles, MainWindow* mainWin)
 {
     this->maxParticles = maxParticles;
     initEmitter(mainWin);
-    initUpdaters();
 }
 
 void ParticleSystem::initEmitter(MainWindow* mainWin)
@@ -34,8 +33,15 @@ void ParticleSystem::initUpdaters()
 {
     auto time = make_shared<TimeUpdater>();
     updaters.push_back(time);
-    auto euler = make_shared<EulerUpdater>();
+    auto euler = make_shared<EulerUpdater>(triStart, triEnd);
     updaters.push_back(euler);
+}
+
+void ParticleSystem::initTriangles(float* triStart, float* triEnd)
+{
+    this->triStart = triStart;
+    this->triEnd = triEnd;
+    initUpdaters();
 }
 
 std::vector<glm::vec3> ParticleSystem::getParticlePositions()
@@ -43,9 +49,7 @@ std::vector<glm::vec3> ParticleSystem::getParticlePositions()
     std::vector<glm::vec3> result;
     for(int i=0;i<particleData.m_countAlive;++i)
     {
-        glm::vec4 pos = particleData.m_pos[i];
-        glm::vec3 pospos = glm::vec3(pos.x,pos.y,pos.z);
-        result.push_back(pospos);
+        result.push_back(glm::vec3(particleData.m_pos[i]));
     }
     return result;
 }

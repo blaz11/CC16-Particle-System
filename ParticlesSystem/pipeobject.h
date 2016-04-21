@@ -15,6 +15,7 @@ using namespace std;
 class PipeObject : public DrawableObject
 {
 public:
+    vector<GLfloat> poses;
     PipeObject(double angle, double size, glm::vec3 translation);
     ~PipeObject() override;
 

@@ -33,7 +33,9 @@ SOURCES += main.cpp\
     Logic/updaters/timeupdater.cpp \
     Logic/particlesystem.cpp \
     particlesystemrender.cpp \
-    settings.cpp
+    settings.cpp \
+    Logic/updaters/ptricollisiondetector.cpp \
+    Logic/triangle.cpp
 
 HEADERS  += mainwindow.h \
     openglwidget.h \
@@ -197,7 +199,9 @@ HEADERS  += mainwindow.h \
     Logic/updaters/timeupdater.h \
     Logic/particlesystem.h \
     particlesystemrender.h \
-    settings.h
+    settings.h \
+    Logic/updaters/ptricollisiondetector.h \
+    Logic/triangle.h
 
 FORMS    += mainwindow.ui
 

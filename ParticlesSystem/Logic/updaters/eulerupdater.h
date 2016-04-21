@@ -1,6 +1,8 @@
 #ifndef EULERUPDATER_H
 #define EULERUPDATER_H
 #include "particleupdater.h"
+#include <vector>
+#include "../triangle.h"
 
 class PPCollisionDetector
 {
@@ -15,18 +17,20 @@ private:
     double touchTime;
     void updatePair(int i, int j);
     double collisionTime(size_t i, size_t j);
-    void handleCollision(double t, size_t i, size_t j);
     void skipToEnd(double timeLeft, size_t i);
+    void handleCollision(double t, size_t i, size_t j);
 };
 
 
 class EulerUpdater : public ParticleUpdater
 {
+private:
+    std::vector<Triangle> triangles;
 public:
     double R;
     double touchTime;
 public:
-    EulerUpdater();
+    EulerUpdater(float* startTri, float* endTri);
     virtual void update(double dt, ParticleData *p) override;
     glm::vec3 findCenter(ParticleData *p);
 };

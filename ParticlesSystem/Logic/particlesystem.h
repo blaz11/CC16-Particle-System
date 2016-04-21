@@ -14,8 +14,11 @@ private:
     ParticleData particleData;
     std::vector<std::shared_ptr<ParticleEmitter>> emitters;
     std::vector<std::shared_ptr<ParticleUpdater>> updaters;
+    float* triStart;
+    float* triEnd;
 public:
     ParticleSystem(size_t maxParticles, MainWindow* mainWin);
+    void initTriangles(float* triStart, float* triEnd);
     void update(double dt);
     std::vector<glm::vec3> getParticlePositions();
 private:

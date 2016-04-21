@@ -149,7 +149,6 @@ void ParticleSystemRender::draw(QOpenGLFunctions *f, Shader *shader, glm::mat4 v
         model = glm::translate(model, i);
         f->glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         f->glDrawArrays(GL_TRIANGLES, 0, numberOfVertices);
-        //qDebug() << i.x << ", " << i.y << ", " << i.z;
     }
     vao.release();
 }

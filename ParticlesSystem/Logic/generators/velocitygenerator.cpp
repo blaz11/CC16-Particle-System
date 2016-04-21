@@ -17,6 +17,6 @@ void VelocityGenerator::generate(double dt, ParticleData *p, size_t startId, siz
         float y = mainWin->sett->velocityVector.y + variation * (rand()%41-20)/10;
         float z = mainWin->sett->velocityVector.z + variation * (rand()%41-20)/10;
 
-        p->m_vel[i] = glm::vec4(z*velocity, y*velocity, -x*velocity, 0);
+        p->m_vel[i] = glm::vec3(z*velocity, y*velocity, -x*velocity);
     }
 }

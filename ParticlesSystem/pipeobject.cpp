@@ -15,18 +15,18 @@ PipeObject::~PipeObject()
 void PipeObject::initialize(QOpenGLFunctions *f)
 {
     projection = glm::perspective(45.0f, 2.0f, 0.01f, 250.0f);
-    vector<GLfloat> positions, normals, textures;
+    vector<GLfloat> normals, textures;
  //   generatePipeVertices(1, 1, positions, normals, textures);
  //   numberOfVertices = positions.size() / 3;
     Cylinder cylinder(angle, size, translation);
-    cylinder.generateDataForVBOs(positions, normals);
-    numberOfVertices = positions.size() / 3;
+    cylinder.generateDataForVBOs(poses, normals);
+    numberOfVertices = poses.size() / 3;
     GLuint VBO;
     vao.create();
     f->glGenBuffers(1, &VBO);
     vao.bind();
     f->glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    f->glBufferData(GL_ARRAY_BUFFER, positions.size(), positions.data(), GL_STATIC_DRAW);
+    f->glBufferData(GL_ARRAY_BUFFER, poses.size(), poses.data(), GL_STATIC_DRAW);
     f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
     f->glEnableVertexAttribArray(0);
     vao.release();

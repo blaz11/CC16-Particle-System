@@ -9,9 +9,9 @@
 class ParticleData
 {
 public:
-    std::unique_ptr<glm::vec4[]> m_pos;
-    std::unique_ptr<glm::vec4[]> m_vel;
-    std::unique_ptr<glm::vec4[]> m_acc;
+    std::unique_ptr<glm::vec3[]> m_pos;
+    std::unique_ptr<glm::vec3[]> m_vel;
+    std::unique_ptr<glm::vec3[]> m_acc;
     std::unique_ptr<float[]> m_time;
     std::unique_ptr<bool[]>  m_alive;
     std::unique_ptr<bool[]> hasMoved;
@@ -30,6 +30,7 @@ public:
     void swapData(size_t a, size_t b);
 
     glm::vec3 positionAtTime(size_t i, double t);
+    void skipToEnd(size_t id, float dt);
     void nextFrame();
 };
 

@@ -33,8 +33,12 @@ void OpenGLWidget::initializeGL()
 {
     auto pipeObject1 = new PipeObject(M_PI / 4, 15, glm::vec3(0, 10, 0));
     addObjectToScene(pipeObject1);
+    vector<GLfloat> vertices = pipeObject1->poses;
     auto pipeObject2 = new PipeObject(3 * M_PI / 4, 20, glm::vec3(0, 30, 5));
     addObjectToScene(pipeObject2);
+    vertices.insert(vertices.end(), pipeObject2->poses.begin(), pipeObject2->poses.end());
+    system.initTriangles(&vertices[0], &vertices[0] + vertices.size());
+
     auto particleRenderer = new ParticleSystemRender(&system);
     addObjectToScene(particleRenderer);
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
